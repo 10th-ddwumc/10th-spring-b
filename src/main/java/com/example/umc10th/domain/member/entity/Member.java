@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -36,7 +37,8 @@ public class Member {
 
     private Gender gender;          // 성별
 
-    private List<MemberFood> foods; // 선호 음식
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<MemberFood> memberFoodList = new ArrayList<>(); // 선호 음식
 
 }
 

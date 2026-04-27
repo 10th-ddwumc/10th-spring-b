@@ -27,4 +27,14 @@ public class MissionResDTO {
             StoreCategory category
     ) {}
 
+    @Builder
+    public record HomeMission(
+            Long id,
+            String storeName,
+            Integer price,
+            Integer point,
+            Status status,
+            LocalDate deadline,
+            StoreCategory category
+    ) {}
 }
