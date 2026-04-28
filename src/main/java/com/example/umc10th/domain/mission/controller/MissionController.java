@@ -9,7 +9,6 @@ import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import com.example.umc10th.global.apiPayload.code.GeneralSuccessCode;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -31,11 +30,12 @@ public class MissionController {
     }
 
     @PatchMapping("/{missionId}/completed")
-    public ResponseEntity<Void> updateMissionStatus(
+    public ApiResponse<Void> updateMissionStatus(
             @PathVariable Long missionId,
             @RequestBody @Valid MissionReqDTO.MissionStatusReqDTO request
     ) {
+        missionService.updateMissionStatus(missionId, request);
         BaseSuccessCode code = GeneralSuccessCode.OK;
-        return ApiResponse.onSuccess(code, missionService.updateMissionStatus(missionId, request));
+        return ApiResponse.onSuccess(code, null);
     }
 }

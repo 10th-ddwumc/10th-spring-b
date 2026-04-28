@@ -5,7 +5,6 @@ import com.example.umc10th.domain.member.dto.response.MemberResDTO;
 import com.example.umc10th.domain.member.service.MemberService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
-import com.example.umc10th.global.apiPayload.code.GeneralErrorCode;
 import com.example.umc10th.global.apiPayload.code.GeneralSuccessCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

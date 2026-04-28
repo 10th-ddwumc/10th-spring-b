@@ -1,6 +1,5 @@
 package com.example.umc10th.domain.review.controller;
 
-import com.example.umc10th.domain.member.dto.response.MemberResDTO;
 import com.example.umc10th.domain.review.dto.request.ReviewReqDTO;
 import com.example.umc10th.domain.review.dto.response.ReviewResDTO;
 import com.example.umc10th.domain.review.service.ReviewService;
@@ -8,7 +7,10 @@ import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import com.example.umc10th.global.apiPayload.code.GeneralSuccessCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
