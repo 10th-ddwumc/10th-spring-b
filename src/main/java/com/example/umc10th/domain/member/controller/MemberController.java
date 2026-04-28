@@ -1,5 +1,6 @@
 package com.example.umc10th.domain.member.controller;
 
+import com.example.umc10th.domain.member.dto.request.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.response.MemberResDTO;
 import com.example.umc10th.domain.member.service.MemberService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
@@ -7,10 +8,7 @@ import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import com.example.umc10th.global.apiPayload.code.GeneralErrorCode;
 import com.example.umc10th.global.apiPayload.code.GeneralSuccessCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,5 +24,12 @@ public class MemberController {
     ){
         BaseSuccessCode code = GeneralSuccessCode.OK;
         return ApiResponse.onSuccess(code, memberService.getHome(region, page, size));
+    }
+    @PostMapping("/sign-up")
+    public ApiResponse<Void> signUp(
+            @RequestBody MemberReqDTO.SignUpReqDTO request
+    ){
+        BaseSuccessCode code = GeneralSuccessCode.OK;
+        return ApiResponse.onSuccess(code, memberService.signUp(request));
     }
 }
