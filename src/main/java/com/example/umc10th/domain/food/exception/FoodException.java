@@ -1,7 +1,10 @@
 package com.example.umc10th.domain.food.exception;
 
-public class FoodException extends RuntimeException {
-    public FoodException(String message) {
-        super(message);
+import com.example.umc10th.global.apiPayload.code.BaseErrorCode;
+import com.example.umc10th.global.apiPayload.exception.ProjectException;
+
+public class FoodException extends ProjectException {
+    public FoodException(BaseErrorCode errorCode) {
+        super(errorCode);
     }
 }
