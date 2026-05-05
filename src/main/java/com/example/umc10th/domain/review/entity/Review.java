@@ -1,4 +1,44 @@
 package com.example.umc10th.domain.review.entity;
 
+import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.store.entity.Store;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "review")
 public class Review {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "review_id")
+    private Long id;
+
+    @Column(name = "rating")
+    private Float rating;
+
+    @Column(name = "content", columnDefinition = "TEXT")
+    private String content;
+
+    // 연관관계
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private Store store;
+
+    @OneToMany(mappedBy = "review")
+    private List<ReviewPhoto> reviewPhotoList = new ArrayList<>();
 }
