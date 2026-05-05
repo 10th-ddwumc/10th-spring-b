@@ -17,7 +17,7 @@ public class MissionController {
 
     @GetMapping("/api/missions")
     public ResponseEntity<ApiResponse<MissionResponseDto.MissionList>> getMissions(@RequestParam(value = "status") MissionStatus status,
-                                                                             @RequestParam(value = "page") Integer page) {
+                                                                             @RequestParam(value = "page") Long page) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.onSuccess(GeneralCode.OK, missionService.getMissions(status, page)));
     }

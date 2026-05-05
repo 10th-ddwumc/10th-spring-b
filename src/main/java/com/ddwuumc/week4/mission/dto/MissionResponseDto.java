@@ -18,12 +18,14 @@ public class MissionResponseDto {
 
     public record MissionInfo(
             Long id,
+            Integer period,
             Integer price,
             Integer point
     ) {}
 
     public record StoreInfo(
             Long id,
-            String name
+            String name,
+            String food
     ) {}
 }
