@@ -8,7 +8,8 @@ import java.time.LocalDateTime;
 public class ReviewConverter {
     public static ReviewResDTO.reviewRes toReviewRes(ReviewReqDTO.reviewReq request) {
         return ReviewResDTO.reviewRes.builder()
-                .reviewId(100L)
+                .nickname("홍길동")
+                .content("리뷰")
                 .star(request.star())
                 .createAt(LocalDateTime.now())
                 .build();

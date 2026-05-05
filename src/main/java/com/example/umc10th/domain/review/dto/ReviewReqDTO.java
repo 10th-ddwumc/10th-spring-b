@@ -4,7 +4,8 @@ import java.util.List;
 
 public class ReviewReqDTO {
     public record reviewReq(
-            Integer storeId,
+            Long storeId,
+            Long userId,
             String content,
             List<Photo> photos,
             Integer star

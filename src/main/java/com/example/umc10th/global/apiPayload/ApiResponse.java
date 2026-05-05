@@ -1,6 +1,5 @@
 package com.example.umc10th.global.apiPayload;
 
-import com.example.umc10th.domain.member.dto.MemberResDTO;
 import com.example.umc10th.global.apiPayload.code.BaseErrorCode;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import com.fasterxml.jackson.annotation.JsonProperty;
