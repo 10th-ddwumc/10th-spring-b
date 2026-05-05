@@ -5,7 +5,7 @@ import java.util.List;
 public class ReviewReqDTO {
 
     public record newReview(
-            Double rating,
+            Double star,
             String content,
             List<String> photos
     ) {}

@@ -1,4 +1,4 @@
-package com.example.umc10th.global.code;
+package com.example.umc10th.global.apiPayload.code;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public enum GeneralErrorCode implements BaseErrorCode{
 
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,
             "COMMON5000",
-            "서버 오류 발생, 관리자에게 문의 바랍니다."),
+            "서버 에러, 관리자에게 문의 바랍니다."),
     ;
 
 

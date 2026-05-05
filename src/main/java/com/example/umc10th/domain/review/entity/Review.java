@@ -2,6 +2,7 @@ package com.example.umc10th.domain.review.entity;
 
 import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.mission.entity.Store;
+import com.example.umc10th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,21 +11,28 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @Entity
-public class Review {
+@Table(name = "review")
+public class Review extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;        // id
+    private Long id;
 
-    private String content; // 리뷰 내용
+    @Column(name = "content")
+    private String content;
 
-    private Double rating;  // 별점
+    @Column(name = "star")
+    private Double star;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member member;  // 리뷰 작성자 (회원)
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
-    private Store store;    // 리뷰가 작성된 가게 (스토어)
+    private Store store;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reply_id")
+    private Reply reply;
 }

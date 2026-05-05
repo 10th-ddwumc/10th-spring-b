@@ -1,8 +1,11 @@
 package com.example.umc10th.domain.member.entity;
 
-
 import com.example.umc10th.domain.member.entity.mapping.MemberFood;
+import com.example.umc10th.domain.member.entity.mapping.MemberTerm;
+import com.example.umc10th.domain.member.enums.Address;
 import com.example.umc10th.domain.member.enums.Gender;
+import com.example.umc10th.domain.member.enums.SocialType;
+import com.example.umc10th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,34 +14,58 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Entity
-public class Member {
+@Table(name = "member")
+public class Member extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;                // id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
-    private String name;            // 이름
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    private String email;           // 이메일
+    @Column(name = "email")
+    private String email;
 
-    private String phoneNumber;     // 전화번호
+    @Column(name = "phone")
+    private String phoneNumber;
 
-    private Integer point;          // 보유 포인트
+    @Column(name = "point")
+    private Integer point;
 
-    private String profileUrl;      // 프로필 이미지
+    @Column(name = "profile_url")
+    private String profileUrl;
 
-    private LocalDate birth;        // 생년월일
+    @Column(name = "birth", nullable = false)
+    private LocalDate birth;
 
-    private String address;         // 주소
+    @Column(name = "address", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Address address;
 
-    private Gender gender;          // 성별
+    @Column(name = "detail_address", nullable = false)
+    private String detailAddress;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<MemberFood> memberFoodList = new ArrayList<>(); // 선호 음식
+    @Column(name = "social_uid", nullable = false)
+    private String socialUid;
+
+    @Column(name = "social_type")
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType;
+
+    @Column(name = "gender", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private Gender gender = Gender.NONE;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    private List<MemberFood> memberFoodList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<MemberTerm> memberTermList = new ArrayList<>();
 
 }
-

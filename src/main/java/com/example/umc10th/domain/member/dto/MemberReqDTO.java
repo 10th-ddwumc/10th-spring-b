@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class MemberReqDTO {
+
     public record GetInfo(
             Long id
     ) {}

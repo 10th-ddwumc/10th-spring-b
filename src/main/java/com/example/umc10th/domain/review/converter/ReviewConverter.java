@@ -1,25 +1,26 @@
 package com.example.umc10th.domain.review.converter;
 
+import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.mission.entity.Store;
+import com.example.umc10th.domain.review.dto.ReviewReqDTO;
 import com.example.umc10th.domain.review.dto.ReviewResDTO;
 import com.example.umc10th.domain.review.entity.Review;
 
+
 public class ReviewConverter {
 
-    // 리뷰 생성 응답 DTO로 변환
-    public static ReviewResDTO.newReview toNewReview(Review review) {
+    public static ReviewResDTO.newReview toNewReview(Review savedReview) {
         return ReviewResDTO.newReview.builder()
-                .id(review.getId())
+                .id(savedReview.getId())
                 .build();
     }
 
-    // 리뷰 조회 응답 DTO로 변환
-    public static ReviewResDTO.getReview toGetReview(Review review) {
-        return ReviewResDTO.getReview.builder()
-                .reviewId(review.getId())
-                .rating(review.getRating())
-                .content(review.getContent())
-                .memberName(review.getMember().getName())
-                .storeName(review.getStore().getName())
+    public static Review toReview(Member member, Store store, ReviewReqDTO.newReview dto) {
+        return Review.builder()
+                .member(member)
+                .store(store)
+                .star(dto.star())
+                .content(dto.content())
                 .build();
     }
 }
