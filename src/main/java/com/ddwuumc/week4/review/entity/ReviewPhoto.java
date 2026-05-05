@@ -1,6 +1,5 @@
-package com.ddwuumc.week4.mission.entity;
+package com.ddwuumc.week4.review.entity;
 
-import com.ddwuumc.week4.store.entity.Store;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,22 +8,18 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "mission")
-public class Mission {
+public class ReviewPhoto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private Integer period;
+    private Integer orderIndex;
 
-    @Column(nullable = false)
-    private Integer price;
-
-    @Column(nullable = false)
-    private Integer point;
+    @Column(length = 500, nullable = false)
+    private String photoUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id")
-    private Store store;
+    @JoinColumn(name = "review_id")
+    private Review review;
 }

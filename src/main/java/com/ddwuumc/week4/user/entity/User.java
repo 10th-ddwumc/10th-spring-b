@@ -2,35 +2,37 @@ package com.ddwuumc.week4.user.entity;
 
 import com.ddwuumc.week4.global.common.BaseEntity;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long id;
 
-    @Column(length = 30)
+    @Column(length = 30, nullable = false)
     private String name;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private UserGender gender;
 
+    @Column(nullable = false)
     private LocalDate birth;
 
-    @Column(length = 100)
+    @Column(length = 100, nullable = false)
     private String address;
 
     @Column(length = 100)
     private String detailAddress;
 
-    @Column(length = 50)
+    @Column(length = 50, nullable = false)
     private String email;
 
     @Column(length = 11)
@@ -39,6 +41,6 @@ public class User extends BaseEntity {
     @Column(length = 500)
     private String photo_url;
 
-    @Builder.Default
-    private Integer point = 0;
+    @Column(nullable = false)
+    private Integer point;
 }
