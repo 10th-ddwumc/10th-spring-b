@@ -24,7 +24,7 @@ public class MemberController {
     public ApiResponse<MemberResDTO.GetInfo> getInfo(
             @RequestBody MemberReqDTO.GetInfo dto
     ) {
-        BaseSuccessCode code = MemberSuccessCode.OK;
+        BaseSuccessCode code = MemberSuccessCode.SUCCESS_HOME;
         return ApiResponse.onSuccess(code, memberService.getInfo(dto));
     }
 
@@ -33,7 +33,7 @@ public class MemberController {
     public ApiResponse<MemberResDTO.signUp> signUp(
             @RequestBody MemberReqDTO.signUp dto
     ) {
-        BaseSuccessCode code = MemberSuccessCode.OK;
+        BaseSuccessCode code = MemberSuccessCode.SIGNUP_OK;
         return ApiResponse.onSuccess(code, memberService.signUp(dto));
     }
 

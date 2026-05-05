@@ -1,6 +1,7 @@
 package com.example.umc10th.domain.review.exception.code;
 
-import com.example.umc10th.global.code.BaseSuccessCode;
+
+import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

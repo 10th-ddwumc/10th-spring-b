@@ -25,7 +25,7 @@ public class MissionController {
             @PathVariable("missionId") Long missionId,
             @PathVariable("memberId") Long memberId
     ) {
-        BaseSuccessCode code = MissionSuccessCode.SUCCESS_OK;
+        BaseSuccessCode code = MissionSuccessCode.COMPLETE_MISSION_OK;
         return ApiResponse.onSuccess(code, missionService.success(missionId, memberId));
     }
 
@@ -38,7 +38,7 @@ public class MissionController {
             @RequestParam(required = false) Long lastId, // 동일 날짜 내 정렬을 위한 커서 ID
             @RequestParam(defaultValue = "10") int pageSize // 한 번에 조회할 미션 개수
     ) {
-        BaseSuccessCode code = MissionSuccessCode.FOUND;
+        BaseSuccessCode code = MissionSuccessCode.GET_MISSION_LIST_OK;
         return ApiResponse.onSuccess(code, missionService.getMissions(isSuccess, memberId, lastEndDate, lastId, pageSize));
     }
 }
