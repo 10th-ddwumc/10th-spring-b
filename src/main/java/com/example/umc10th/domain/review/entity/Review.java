@@ -2,6 +2,7 @@ package com.example.umc10th.domain.review.entity;
 
 import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.store.entity.Store;
+import com.example.umc10th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "review")
-public class Review {
+public class Review extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

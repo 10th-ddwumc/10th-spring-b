@@ -15,20 +15,11 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberService memberService;
 
-    @GetMapping("/home")
-    public ApiResponse<MemberResDTO.HomeResDTO> getHome(
-            @RequestParam String region,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ){
-        BaseSuccessCode code = GeneralSuccessCode.OK;
-        return ApiResponse.onSuccess(code, memberService.getHome(region, page, size));
-    }
-    @PostMapping("/sign-up")
-    public ApiResponse<Void> signUp(
-            @RequestBody MemberReqDTO.SignUpReqDTO request
-    ){
-        BaseSuccessCode code = GeneralSuccessCode.OK;
-        return ApiResponse.onSuccess(code, memberService.signUp(request));
-    }
+//    @PostMapping("/sign-up")
+//    public ApiResponse<Void> signUp(
+//            @RequestBody MemberReqDTO.SignUpReqDTO request
+//    ){
+//        BaseSuccessCode code = GeneralSuccessCode.OK;
+//        return ApiResponse.onSuccess(code, memberService.signUp(request));
+//    }
 }

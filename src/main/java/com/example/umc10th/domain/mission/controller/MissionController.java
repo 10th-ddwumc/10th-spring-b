@@ -1,5 +1,6 @@
 package com.example.umc10th.domain.mission.controller;
 
+import com.example.umc10th.domain.member.entity.mapping.MemberMission;
 import com.example.umc10th.domain.mission.dto.request.MissionReqDTO;
 import com.example.umc10th.domain.mission.dto.response.MissionResDTO;
 import com.example.umc10th.domain.mission.enums.MissionStatus;
@@ -9,24 +10,27 @@ import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import com.example.umc10th.global.apiPayload.code.GeneralSuccessCode;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/missions")
 public class MissionController {
 
     private final MissionService missionService;
 
-    @GetMapping("/mission")
-    public ApiResponse<MissionResDTO> getMission(
-            @RequestParam String region,
+    @GetMapping
+    public ApiResponse<MissionResDTO.MissionListResDTO> getMyMissions(
+            @RequestParam Long memberId,
             @RequestParam MissionStatus status,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
-    ){
-        BaseSuccessCode code = GeneralSuccessCode.OK;
-        return ApiResponse.onSuccess(code, missionService.getMission(region, status, page, size));
+    ) {
+        MissionResDTO.MissionListResDTO result =
+                missionService.getMyMissions(memberId, status, PageRequest.of(page, size));
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
     }
 
     @PatchMapping("/{missionId}/completed")
@@ -34,8 +38,7 @@ public class MissionController {
             @PathVariable Long missionId,
             @RequestBody @Valid MissionReqDTO.MissionStatusReqDTO request
     ) {
-        missionService.updateMissionStatus(missionId, request);
-        BaseSuccessCode code = GeneralSuccessCode.OK;
-        return ApiResponse.onSuccess(code, null);
+        missionService.updateMissionStatus(missionId, request.getStatus());
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
     }
 }

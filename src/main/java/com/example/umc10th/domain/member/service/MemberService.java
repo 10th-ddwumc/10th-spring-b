@@ -6,9 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MemberService {
-    public MemberResDTO.HomeResDTO getHome(String region, int page, int size) {
-    }
+//    public MemberResDTO.HomeResDTO getHome(String region, int page, int size) {
+//    }
 
-    public Void signUp(MemberReqDTO.SignUpReqDTO request) {
-    }
 }
