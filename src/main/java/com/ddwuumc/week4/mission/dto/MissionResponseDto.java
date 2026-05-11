@@ -2,14 +2,7 @@ package com.ddwuumc.week4.mission.dto;
 
 import com.ddwuumc.week4.mission.entity.MissionStatus;
 
-import java.util.List;
-
 public class MissionResponseDto {
-    public record MissionList(
-            List<MissionItem> missions,
-            Integer totalCount
-    ) {}
-
     public record MissionItem(
             MissionStatus status,
             MissionInfo mission,
