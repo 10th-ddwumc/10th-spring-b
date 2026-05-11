@@ -1,16 +1,19 @@
 package com.example.umc10th.domain.review.entity;
 
-import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.mission.entity.Store;
-import com.example.umc10th.global.entity.BaseEntity;
+import com.example.umc10th.domain.user.entity.User;
+import com.example.umc10th.global.common.BaseEntity;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder
 @Entity
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "review")
 public class Review extends BaseEntity {
 
@@ -18,21 +21,22 @@ public class Review extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "content")
-    private String content;
+    @Column(name = "review_body", nullable = false)
+    private String reviewBody;
 
-    @Column(name = "star")
-    private Double star;
+    @Column(name = "rate", nullable = false)
+    private Float rate;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reply_id")
+    @OneToOne(mappedBy = "review", cascade = CascadeType.REMOVE)
     private Reply reply;
+
 }

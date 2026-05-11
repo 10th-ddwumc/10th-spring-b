@@ -1,36 +1,33 @@
 package com.example.umc10th.domain.mission.entity;
 
-import com.example.umc10th.domain.mission.enums.StoreCategory;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder
 @Entity
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "store")
 public class Store {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "store_name", nullable = false)
+    private String storeName;
 
-    @Column(name = "address")
-    private String address;
+    @Column(name = "store_rate")
+    private Float storeRate;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "location_id")
-    private Location location;
+    @Column(name = "detail_address", nullable = false)
+    private String detailAddress;
 
-    @Column(name = "star")
-    private Double star;
-
-    @Column(name = "category")
-    @Enumerated(EnumType.STRING)
-    private StoreCategory category;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id", nullable = false)
+    private Region region;
 }

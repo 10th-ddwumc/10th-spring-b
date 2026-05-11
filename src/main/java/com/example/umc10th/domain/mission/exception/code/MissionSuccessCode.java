@@ -9,26 +9,25 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum MissionSuccessCode implements BaseSuccessCode {
 
-    // 미션 생성 성공
-    CREATE_MISSION_OK(HttpStatus.OK, "MISSION200_1", "미션 생성에 성공했습니다."),
+    // OK
+    LIST_OK(HttpStatus.OK,
+            "MISSION200_1",
+            "성공적으로 미션 목록을 조회했습니다."),
+    COMPLETE_OK(HttpStatus.OK,
+            "MISSION200_2",
+            "성공적으로 미션을 완료 처리했습니다."),
+    STORE_MISSION_OK(HttpStatus.OK,
+            "MISSION200_3",
+            "성공적으로 가게의 미션을 조회했습니다."),
+    MY_MISSION_OK(HttpStatus.OK,
+            "MISSION200_4",
+            "성공적으로 내 미션을 조회했습니다."),
 
-    // 미션 조회 성공
-    GET_MISSION_OK(HttpStatus.OK, "MISSION200_2", "미션 조회에 성공했습니다."),
-
-    // 미션 목록 조회 성공
-    GET_MISSION_LIST_OK(HttpStatus.OK, "MISSION200_3", "미션 목록 조회에 성공했습니다."),
-
-    // 미션 수정 성공
-    UPDATE_MISSION_OK(HttpStatus.OK, "MISSION200_4", "미션 수정에 성공했습니다."),
-
-    // 미션 삭제 성공
-    DELETE_MISSION_OK(HttpStatus.OK, "MISSION200_5", "미션 삭제에 성공했습니다."),
-
-    // 미션 성공 처리
-    COMPLETE_MISSION_OK(HttpStatus.OK, "MISSION200_6", "미션 성공 처리에 성공했습니다."),
-
-    // 미션 실패 처리
-    FAIL_MISSION_OK(HttpStatus.OK, "MISSION200_7", "미션 실패 처리에 성공했습니다.");
+    // CREATED
+    STORE_MISSION_CREATED(HttpStatus.CREATED,
+            "MISSION201_1",
+            "성공적으로 미션을 생성했습니다."),
+    ;
 
     private final HttpStatus status;
     private final String code;

@@ -9,26 +9,19 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum ReviewErrorCode implements BaseErrorCode {
 
-    // 리뷰를 찾을 수 없는 경우
-    REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "REVIEW404_1", "리뷰를 찾을 수 없습니다."),
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND,
+            "REVIEW404_1",
+            "해당 사용자를 찾을 수 없습니다."),
+    STORE_NOT_FOUND(HttpStatus.NOT_FOUND,
+            "REVIEW404_2",
+            "해당 가게를 찾을 수 없습니다."),
 
-    // 리뷰 작성 권한이 없는 경우
-    REVIEW_FORBIDDEN(HttpStatus.FORBIDDEN, "REVIEW403_1", "리뷰 작성 권한이 없습니다."),
+    // BAD_REQUEST
+    QUERY_NOT_VALID(HttpStatus.BAD_REQUEST,
+            "REVIEW400_1",
+            "유효하지 않은 정렬 기준입니다."),
 
-    // 리뷰 내용이 비어있는 경우
-    REVIEW_CONTENT_EMPTY(HttpStatus.BAD_REQUEST, "REVIEW400_2", "리뷰 내용이 비어있습니다."),
-
-    // 리뷰 내용 길이 초과
-    REVIEW_CONTENT_TOO_LONG(HttpStatus.BAD_REQUEST, "REVIEW400_3", "리뷰 내용이 너무 깁니다."),
-
-    // 평점 값이 유효하지 않은 경우
-    INVALID_RATING_VALUE(HttpStatus.BAD_REQUEST, "REVIEW400_4", "유효하지 않은 평점입니다."),
-
-    // 리뷰 수정 권한이 없는 경우
-    REVIEW_UPDATE_FORBIDDEN(HttpStatus.FORBIDDEN, "REVIEW403_2", "리뷰 수정 권한이 없습니다."),
-
-    // 리뷰 삭제 권한이 없는 경우
-    REVIEW_DELETE_FORBIDDEN(HttpStatus.FORBIDDEN, "REVIEW403_3", "리뷰 삭제 권한이 없습니다.");
+    ;
 
     private final HttpStatus status;
     private final String code;

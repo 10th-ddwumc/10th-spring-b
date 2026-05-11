@@ -1,7 +1,5 @@
 package com.example.umc10th.global.config;
 
-
-
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -13,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SwaggerConfig {
+
     @Bean
     public OpenAPI swagger() {
         Info info = new Info().title("UMC10th").description("10기 Swagger").version("0.0.1");
@@ -27,7 +26,6 @@ public class SwaggerConfig {
                         .type(SecurityScheme.Type.HTTP)
                         .scheme("Bearer")
                         .bearerFormat("JWT"));
-
 
         return new OpenAPI()
                 .info(info)
