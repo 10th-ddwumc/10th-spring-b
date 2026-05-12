@@ -41,4 +41,11 @@ public class MemberReqDTO {
         @NotNull(message = "선호 음식은 필수입니다.")
         private List<String> favoriteFoods;
     }
+
+    @Getter
+    @NoArgsConstructor
+    public static class MemberIdReqDTO {
+        @NotNull(message = "memberId는 필수입니다.")
+        private Long memberId;
+    }
 }

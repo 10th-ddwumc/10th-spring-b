@@ -23,13 +23,13 @@ public class MissionController {
 
     @GetMapping
     public ApiResponse<MissionResDTO.MissionListResDTO> getMyMissions(
-            @RequestParam Long memberId,
+            @RequestBody @Valid MissionReqDTO.MyMissionReqDTO request,
             @RequestParam MissionStatus status,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
         MissionResDTO.MissionListResDTO result =
-                missionService.getMyMissions(memberId, status, PageRequest.of(page, size));
+                missionService.getMyMissions(request.getMemberId(), status, PageRequest.of(page, size));
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
     }
 
@@ -41,4 +41,6 @@ public class MissionController {
         missionService.updateMissionStatus(missionId, request.getStatus());
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
     }
+
+
 }

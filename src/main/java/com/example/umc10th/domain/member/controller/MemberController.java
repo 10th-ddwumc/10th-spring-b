@@ -8,6 +8,7 @@ import com.example.umc10th.domain.review.dto.response.ReviewResDTO;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import com.example.umc10th.global.apiPayload.code.GeneralSuccessCode;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,16 +20,16 @@ public class MemberController {
 
     @GetMapping("/members/my-page")
     public ApiResponse<MemberResDTO.MyPageResDTO> getMyPage(
-            @RequestHeader("memberId") Long memberId) {
-        return ApiResponse.onSuccess(MemberSuccessCode.GET_MY_PAGE, memberService.getMyPage(memberId));
+            @RequestBody @Valid MemberReqDTO.MemberIdReqDTO request) {
+        return ApiResponse.onSuccess(MemberSuccessCode.GET_MY_PAGE, memberService.getMyPage(request.getMemberId()));
     }
 
     @GetMapping("/members/reviews")
     public ApiResponse<ReviewResDTO.MyReviewListResDTO> getMyReviews(
-            @RequestHeader("memberId") Long memberId,
+            @RequestBody @Valid MemberReqDTO.MemberIdReqDTO request,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        return ApiResponse.onSuccess(MemberSuccessCode.GET_MY_REVIEWS, memberService.getMyReviews(memberId, page, size));
+        return ApiResponse.onSuccess(MemberSuccessCode.GET_MY_REVIEWS, memberService.getMyReviews(request.getMemberId(), page, size));
     }
 
 //    @PostMapping("/sign-up")
