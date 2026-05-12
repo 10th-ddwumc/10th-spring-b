@@ -40,4 +40,17 @@ public class MemberResDTO {
         private int daysLeft;
         private LocalDateTime endAt;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MyPageResDTO {
+        private String nickname;
+        private String profileImageUrl;
+        private String email;
+        private String phoneNumber;
+        private boolean phoneVerified;
+        private Integer point;
+    }
 }
