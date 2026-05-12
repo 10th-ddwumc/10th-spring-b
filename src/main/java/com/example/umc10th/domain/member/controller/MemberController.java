@@ -25,11 +25,15 @@ public class MemberController {
     }
 
     @GetMapping("/members/reviews")
-    public ApiResponse<ReviewResDTO.MyReviewListResDTO> getMyReviews(
+    public ApiResponse<ReviewResDTO.MyReviewCursorListResDTO> getMyReviews(
             @RequestBody @Valid MemberReqDTO.MemberIdReqDTO request,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        return ApiResponse.onSuccess(MemberSuccessCode.GET_MY_REVIEWS, memberService.getMyReviews(request.getMemberId(), page, size));
+            @RequestParam(defaultValue = "ID") String sort,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) Long cursorId,
+            @RequestParam(required = false) Float cursorRating
+    ) {
+        return ApiResponse.onSuccess(MemberSuccessCode.GET_MY_REVIEWS,
+                memberService.getMyReviews(request.getMemberId(), sort, size, cursorId, cursorRating));
     }
 
 //    @PostMapping("/sign-up")

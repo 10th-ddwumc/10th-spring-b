@@ -29,9 +29,9 @@ public class ReviewResDTO {
     public static class MyReviewDTO {
         private Long reviewId;
         private String storeName;
-        private Double rating;
+        private String nickname;
+        private Float rating;
         private String content;
-        private List<String> photoUrls;
         private LocalDateTime createdAt;
     }
 
@@ -41,5 +41,13 @@ public class ReviewResDTO {
     @AllArgsConstructor
     public static class MyReviewListResDTO {
         private Page<MyReviewDTO> reviews;
+    }
+
+    @Builder @Getter @NoArgsConstructor @AllArgsConstructor
+    public static class MyReviewCursorListResDTO {
+        private List<MyReviewDTO> reviews;
+        private Long nextCursorId;
+        private Float nextCursorRating;
+        private boolean hasNext;
     }
 }

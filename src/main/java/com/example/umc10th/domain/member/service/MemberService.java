@@ -7,12 +7,16 @@ import com.example.umc10th.domain.member.exception.MemberException;
 import com.example.umc10th.domain.member.exception.code.MemberErrorCode;
 import com.example.umc10th.domain.member.repository.MemberRepository;
 import com.example.umc10th.domain.review.dto.response.ReviewResDTO;
+import com.example.umc10th.domain.review.entity.Review;
 import com.example.umc10th.domain.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -39,25 +43,42 @@ public class MemberService {
                 .build();
     }
 
-    public ReviewResDTO.MyReviewListResDTO getMyReviews(Long memberId, int page, int size) {
-        Member member = memberRepository.findById(memberId)
+    public ReviewResDTO.MyReviewCursorListResDTO getMyReviews(
+            Long memberId, String sort, int size, Long cursorId, Float cursorRating) {
+
+        memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
-        Page<ReviewResDTO.MyReviewDTO> reviewPage =
-                reviewRepository.findByMemberWithDetails(member, PageRequest.of(page, size))
-                        .map(review -> ReviewResDTO.MyReviewDTO.builder()
-                                .reviewId(review.getId())
-                                .storeName(review.getStore().getStoreName())
-                                .rating(Double.valueOf(review.getRating()))
-                                .content(review.getContent())
-                                .photoUrls(review.getReviewPhotoList().stream()
-                                        .map(photo -> photo.getPhotoUrl())
-                                        .toList())
-                                .createdAt(review.getCreatedAt())
-                                .build());
+        Pageable pageable = PageRequest.of(0, size + 1);
+        List<Review> reviews;
 
-        return ReviewResDTO.MyReviewListResDTO.builder()
-                .reviews(reviewPage)
+        if ("RATING".equalsIgnoreCase(sort)) {
+            reviews = reviewRepository.findByMemberIdOrderByRating(memberId, cursorRating, cursorId, pageable);
+        } else {
+            reviews = reviewRepository.findByMemberIdOrderById(memberId, cursorId, pageable);
+        }
+
+        boolean hasNext = reviews.size() > size;
+        if (hasNext) reviews = reviews.subList(0, size);
+
+        List<ReviewResDTO.MyReviewDTO> dtos = reviews.stream()
+                .map(r -> ReviewResDTO.MyReviewDTO.builder()
+                        .reviewId(r.getId())
+                        .storeName(r.getStore().getStoreName())
+                        .nickname(r.getMember().getName())
+                        .rating(r.getRating())
+                        .content(r.getContent())
+                        .createdAt(r.getCreatedAt())
+                        .build())
+                .toList();
+
+        Review last = reviews.isEmpty() ? null : reviews.get(reviews.size() - 1);
+
+        return ReviewResDTO.MyReviewCursorListResDTO.builder()
+                .reviews(dtos)
+                .nextCursorId(hasNext && last != null ? last.getId() : null)
+                .nextCursorRating(hasNext && last != null ? last.getRating() : null)
+                .hasNext(hasNext)
                 .build();
     }
 }
