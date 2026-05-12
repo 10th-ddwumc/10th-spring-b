@@ -1,6 +1,7 @@
 package com.example.umc10th.domain.mission.entity;
 
 import com.example.umc10th.domain.member.enums.FoodType;
+import com.example.umc10th.domain.review.entity.Review;
 import com.example.umc10th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,9 @@ public class Store extends BaseEntity {
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE)
     private List<Mission> missionList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE)
+    private List<Review> reviewList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id")
