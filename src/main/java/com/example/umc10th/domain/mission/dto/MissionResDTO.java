@@ -9,7 +9,7 @@ import java.util.List;
 
 public class MissionResDTO {
     @Builder
-    public record missionRes(
+    public record GetMission(
             List<Mission> missions
     ) {
     }
@@ -32,16 +32,11 @@ public class MissionResDTO {
     ) {
     }
 
-
-
     @Builder
-    public record PageResDTO<T>(
-            List<T> content,
-            int page,
-            int size,
-            long totalElements,
-            int totalPages,
-            boolean isLast
+    public record Pagination<T>(
+            List<T> data,
+            Integer pageNumber,
+            Integer pageSize
     ) {
     }
 

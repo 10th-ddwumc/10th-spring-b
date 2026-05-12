@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ReviewResDTO {
     @Builder
-    public record reviewRes(
+    public record Review(
         String nickname,
         Integer star,
         String content,
@@ -18,4 +18,13 @@ public class ReviewResDTO {
     public record Photo(
       String photoUri
     ){}
+
+    @Builder
+    public record Pagination<T>(
+            List<T> data,
+            Boolean hasNext,
+            String nextCursor,
+            Integer pageSize
+    ) {
+    }
 }

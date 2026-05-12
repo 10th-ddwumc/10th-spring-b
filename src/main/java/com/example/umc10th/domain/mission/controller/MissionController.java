@@ -7,24 +7,24 @@ import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import com.example.umc10th.global.apiPayload.code.GeneralSuccessCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class MissionController {
     private final MissionService missionService;
+
     @GetMapping("/missions")
-    public ApiResponse<MissionResDTO.PageResDTO<MissionResDTO.missionRes>> missions(
+    public ApiResponse<MissionResDTO.Pagination<MissionResDTO.Mission>> getMissions(
             @RequestParam Long userId,
-            @PageableDefault(size=10, page=0) Pageable pageable
+            @RequestParam Integer pageSize,
+            @RequestParam Integer pageNumber,
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) Boolean completed
     ){
         BaseSuccessCode code = MissionSuccessCode.MISSION_FOUND;
-        return ApiResponse.onSuccess(code, missionService.missions(userId, pageable));
+        return ApiResponse.onSuccess(code, missionService.getMissions(userId, pageSize, pageNumber, sort, completed));
     }
 
     @PatchMapping("/missions/{id}/complete")
@@ -34,6 +34,5 @@ public class MissionController {
         BaseSuccessCode code = GeneralSuccessCode.OK;
         return ApiResponse.onSuccess(code, missionService.completeMission(missionId));
     }
-
 
 }

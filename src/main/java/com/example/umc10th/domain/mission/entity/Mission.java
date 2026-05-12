@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class Mission extends BaseEntity {
     private Integer point;
 
     @Column(name = "dday", nullable = false)
-    private Integer dday;
+    private LocalDate dday;
 
 
 }
