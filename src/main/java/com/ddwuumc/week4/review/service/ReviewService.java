@@ -1,6 +1,7 @@
 package com.ddwuumc.week4.review.service;
 
-import com.ddwuumc.week4.global.code.success.GeneralErrorCode;
+import com.ddwuumc.week4.global.code.success.StoreErrorCode;
+import com.ddwuumc.week4.global.code.success.UserErrorCode;
 import com.ddwuumc.week4.global.common.PageDto.Cursor;
 import com.ddwuumc.week4.global.exception.ProjectException;
 import com.ddwuumc.week4.review.dto.ReviewConverter;
@@ -32,8 +33,8 @@ public class ReviewService {
     public Long createReview(ReviewRequestDto.Review reviewDto) {
         // TODO: user id는 하드코딩함
         // TODO: 구체적인 예외를 두지 않고 공통 예외로 대체
-        User user = userRepository.findById(0L).orElseThrow(() -> new ProjectException(GeneralErrorCode.NOT_FOUND));
-        Store store = storeRepository.findById(reviewDto.storeId()).orElseThrow(() -> new ProjectException(GeneralErrorCode.NOT_FOUND));
+        User user = userRepository.findById(0L).orElseThrow(() -> new ProjectException(UserErrorCode.USER_NOT_FOUND));
+        Store store = storeRepository.findById(reviewDto.storeId()).orElseThrow(() -> new ProjectException(StoreErrorCode.STORE_NOT_FOUND));
 
         Review review = Review.create(reviewDto.content(), reviewDto.rate(), user, store);
 

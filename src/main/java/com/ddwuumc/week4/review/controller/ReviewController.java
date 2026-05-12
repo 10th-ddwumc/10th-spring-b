@@ -1,6 +1,6 @@
 package com.ddwuumc.week4.review.controller;
 
-import com.ddwuumc.week4.global.code.error.GeneralSuccessCode;
+import com.ddwuumc.week4.global.code.error.ReviewSuccessCode;
 import com.ddwuumc.week4.global.common.ApiResponse;
 import com.ddwuumc.week4.global.common.PageDto.Cursor;
 import com.ddwuumc.week4.review.dto.ReviewRequestDto;
@@ -21,7 +21,7 @@ public class ReviewController {
     @PostMapping("/api/reviews")
     public ResponseEntity<ApiResponse<Long>> createReview(@RequestBody @Valid ReviewRequestDto.Review review) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponse.onSuccess(GeneralSuccessCode.CREATED, reviewService.createReview(review)));
+                .body(ApiResponse.onSuccess(ReviewSuccessCode.REVIEW_CREATED, reviewService.createReview(review)));
     }
 
     @GetMapping("/api/reviews")
@@ -30,7 +30,7 @@ public class ReviewController {
                                                                   @RequestParam Integer pageSize,
                                                                   @RequestParam String sort) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ApiResponse.onSuccess(GeneralSuccessCode.OK, reviewService.readReview(query, cursor, pageSize, sort)));
+                .body(ApiResponse.onSuccess(ReviewSuccessCode.REVIEW_OK, reviewService.readReview(query, cursor, pageSize, sort)));
 
     }
 }
