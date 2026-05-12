@@ -6,6 +6,8 @@ import com.example.umc10th.domain.mission.dto.request.MissionReqDTO;
 import com.example.umc10th.domain.mission.dto.response.MissionResDTO;
 import com.example.umc10th.domain.mission.entity.Mission;
 import com.example.umc10th.domain.mission.enums.MissionStatus;
+import com.example.umc10th.domain.mission.exception.MissionException;
+import com.example.umc10th.domain.mission.exception.code.MissionErrorCode;
 import com.example.umc10th.domain.store.entity.Store;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ public class MissionService {
     /**
      * 내가 진행중 / 진행 완료한 미션 목록 조회 (페이징)
      */
+    @Transactional(readOnly = true)
     public MissionResDTO.MissionListResDTO getMyMissions(Long memberId, MissionStatus status, Pageable pageable) {
         Page<MemberMission> memberMissions =
                 memberMissionRepository.findByMemberIdAndStatus(memberId, status.name(), pageable);
@@ -54,13 +57,18 @@ public class MissionService {
                 .build();
     }
 
+
     /**
      * 미션 상태 변경 (진행중 → 진행완료)
      */
     @Transactional
     public void updateMissionStatus(Long memberMissionId, MissionStatus newStatus) {
         MemberMission memberMission = memberMissionRepository.findById(memberMissionId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 미션입니다."));
+                .orElseThrow(() -> new MissionException(MissionErrorCode.MEMBER_MISSION_NOT_FOUND));
+
+        if (MissionStatus.COMPLETED.name().equals(memberMission.getStatus())) {
+            throw new MissionException(MissionErrorCode.MISSION_ALREADY_COMPLETED);
+        }
 
         memberMission.updateStatus(newStatus.name());
     }

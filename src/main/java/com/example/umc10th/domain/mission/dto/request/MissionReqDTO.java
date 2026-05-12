@@ -20,11 +20,5 @@ public class MissionReqDTO {
     public static class MyMissionReqDTO {
         @NotNull(message = "memberId는 필수입니다.")
         private Long memberId;
-
-        @Min(value = 0, message = "page는 0 이상이어야 합니다.")
-        private int page = 0;
-
-        @Min(value = 1, message = "size는 1 이상이어야 합니다.")
-        private int size = 10;
     }
 }
