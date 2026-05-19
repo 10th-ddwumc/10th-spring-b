@@ -1,7 +1,0 @@
-package com.example.umcdongdong2.domain.mission.exception;
-
-public class MissionException extends RuntimeException {
-    public MissionException(String message) {
-        super(message);
-    }
-}
