@@ -29,14 +29,14 @@ public class MemberReqDTO {
     ){}
 
     // 회원가입 API에서 받을 요청 값.
-    // 이번 Spring Security 미션 때문에 폼 로그인에 사용할 email/password를 추가.
+    // email/password를 추가.
     public record SignUp(
             // @Email: 이메일 형식인지 검사
             @Email
             @NotBlank
             String email,
 
-            // 비밀번호 원문. DB에는 이 값 그대로 저장하지 않고, Service에서 BCrypt로 암호화해서 저장해야함.
+            // 비밀번호 원문. DB에는 이 값 그대로 저장하지 않고, Service에서 BCrypt로 암호화
             @NotBlank
             String password,
 
@@ -53,7 +53,7 @@ public class MemberReqDTO {
             Address address,
             String region,
 
-            // 아래 3개는 필수 약관입니다. Service에서 true인지 한 번 더 확인.
+            // 필수 약관
             @NotNull
             Boolean ageConfirm,       // 연령 확인
 

@@ -1,5 +1,5 @@
 package com.example.umc.domain.member.enums;
 
 public enum Address {
-    등촌, 안암
+    서울, 경기
 }

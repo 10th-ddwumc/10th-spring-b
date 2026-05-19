@@ -74,7 +74,6 @@ public class MemberService {
     @Transactional
     public MemberResDTO.SignUp getSignUp(MemberReqDTO.SignUp dto) {
         // 화면상 필수 약관인 연령 확인, 서비스 이용약관, 개인정보 처리방침은 반드시 true여야 함.
-        // Boolean.TRUE.equals(...)를 쓰면 값이 null이어도 NullPointerException 없이 false처럼 처리할 수 있습니다.
         if (!Boolean.TRUE.equals(dto.ageConfirm())
                 || !Boolean.TRUE.equals(dto.serviceAgree())
                 || !Boolean.TRUE.equals(dto.privacyAgree())) {
@@ -107,7 +106,6 @@ public class MemberService {
         Integer goal = 10;
 
         Long cursor = (cursorStr != null && !cursorStr.isEmpty()) ? Long.parseLong(cursorStr) : null;
-        // missionRepository.findHomeMissions(...) 같이 레포지토리에 새로 만들어야 해요!
         Pageable pageable = PageRequest.of(0, size + 1); // 10개 요청 시 11개 가져와서 hasNext 판단
         List<Mission> missions = missionRepository.findHomeMissions(cursor, pageable);
         boolean hasNext = false;
@@ -116,7 +114,6 @@ public class MemberService {
             missions = missions.subList(0, size);
         }
 
-        // 4. 컨버터에게 전부 넘겨서 최종 결과물 만들기!
         return MemberConverter.toHome(member, currentCount, goal, missions, hasNext);
         }
 }
