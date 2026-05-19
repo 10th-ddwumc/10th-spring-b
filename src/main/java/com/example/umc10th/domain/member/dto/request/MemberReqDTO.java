@@ -1,6 +1,8 @@
 package com.example.umc10th.domain.member.dto.request;
 
+import com.example.umc10th.domain.member.enums.Address;
 import com.example.umc10th.domain.member.enums.Gender;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -13,6 +15,13 @@ public class MemberReqDTO {
     @Getter
     @NoArgsConstructor
     public static class SignUpReqDTO{
+        @NotBlank(message = "이메일은 필수입니다.")
+        @Email(message = "이메일 형식이 올바르지 않습니다.")
+        private String email;
+
+        @NotBlank(message = "비밀번호는 필수입니다.")
+        private String password;
+
         @NotBlank(message = "이름은 필수입니다.")
         private String name;
 
@@ -23,7 +32,7 @@ public class MemberReqDTO {
         private LocalDate birthDate;
 
         @NotBlank(message = "주소는 필수입니다.")
-        private String address;
+        private Address address;
 
         @NotNull(message = "14세 이상 동의는 필수입니다.")
         private Boolean agreeAge;

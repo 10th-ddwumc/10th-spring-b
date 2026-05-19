@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberService memberService;
 
-    @GetMapping("/members/my-page")
+    @GetMapping("/members/my-page/{memberId}")
     public ApiResponse<MemberResDTO.MyPageResDTO> getMyPage(
-            @RequestBody @Valid MemberReqDTO.MemberIdReqDTO request) {
-        return ApiResponse.onSuccess(MemberSuccessCode.GET_MY_PAGE, memberService.getMyPage(request.getMemberId()));
+            @PathVariable Long memberId) {
+        return ApiResponse.onSuccess(MemberSuccessCode.GET_MY_PAGE, memberService.getMyPage(memberId));
     }
 
     @GetMapping("/members/reviews")
@@ -36,11 +36,11 @@ public class MemberController {
                 memberService.getMyReviews(request.getMemberId(), sort, size, cursorId, cursorRating));
     }
 
-//    @PostMapping("/sign-up")
-//    public ApiResponse<Void> signUp(
-//            @RequestBody MemberReqDTO.SignUpReqDTO request
-//    ){
-//        BaseSuccessCode code = GeneralSuccessCode.OK;
-//        return ApiResponse.onSuccess(code, memberService.signUp(request));
-//    }
+    @PostMapping("/sign-up")
+    public ApiResponse<MemberResDTO.SignUpResDTO> signUp(
+            @RequestBody MemberReqDTO.SignUpReqDTO request
+    ){
+        BaseSuccessCode code = GeneralSuccessCode.OK;
+        return ApiResponse.onSuccess(code, memberService.signup(request));
+    }
 }

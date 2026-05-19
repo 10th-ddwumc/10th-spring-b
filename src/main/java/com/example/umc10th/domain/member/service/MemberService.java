@@ -3,6 +3,7 @@ package com.example.umc10th.domain.member.service;
 import com.example.umc10th.domain.member.dto.request.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.response.MemberResDTO;
 import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.member.enums.Provider;
 import com.example.umc10th.domain.member.exception.MemberException;
 import com.example.umc10th.domain.member.exception.code.MemberErrorCode;
 import com.example.umc10th.domain.member.repository.MemberRepository;
@@ -13,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,11 +26,35 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class MemberService {
 
-    private MemberRepository memberRepository;
-    private ReviewRepository reviewRepository;
+    private final MemberRepository memberRepository;
+    private final ReviewRepository reviewRepository;
+    private final PasswordEncoder passwordEncoder;
 
-//    public MemberResDTO.HomeResDTO getHome(String region, int page, int size) {
-//    }
+    public MemberResDTO.SignUpResDTO signup(MemberReqDTO.SignUpReqDTO request) {
+        if (memberRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new MemberException(MemberErrorCode.EMAIL_ALREADY_EXISTS);
+        }
+
+        Member member = Member.builder()
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .name(request.getName())
+                .gender(request.getGender())
+                .birth(request.getBirthDate())
+                .address(request.getAddress())
+                .provider(Provider.TEST)
+                .providerId("Test")
+                .build();
+
+        Member saved = memberRepository.save(member);
+
+        return MemberResDTO.SignUpResDTO.builder()
+                .memberId(saved.getId())
+                .email(saved.getEmail())
+                .name(saved.getName())
+                .createdAt(saved.getCreatedAt())
+                .build();
+    }
 
     public MemberResDTO.MyPageResDTO getMyPage(Long memberId) {
         Member member = memberRepository.findById(memberId)

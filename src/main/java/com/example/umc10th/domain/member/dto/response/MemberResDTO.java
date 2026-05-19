@@ -53,4 +53,15 @@ public class MemberResDTO {
         private boolean phoneVerified;
         private Integer point;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class SignUpResDTO {
+        private Long memberId;
+        private String email;
+        private String name;
+        private LocalDateTime createdAt;
+    }
 }
