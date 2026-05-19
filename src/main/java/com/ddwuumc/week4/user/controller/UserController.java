@@ -1,6 +1,7 @@
 package com.ddwuumc.week4.user.controller;
 
 import com.ddwuumc.week4.global.code.success.GeneralSuccessCode;
+import com.ddwuumc.week4.global.code.success.UserSuccessCode;
 import com.ddwuumc.week4.global.common.ApiResponse;
 import com.ddwuumc.week4.global.common.PageDto.Offset;
 import com.ddwuumc.week4.mission.dto.MissionResponseDto.MissionItem;
@@ -33,6 +34,6 @@ public class UserController {
     @PostMapping("/api/auth/signup")
     public ResponseEntity<ApiResponse<Long>> signup(@RequestBody UserRequestDto.SignupUser user) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponse.onSuccess(GeneralSuccessCode.CREATED, userService.signup(user)));
+                .body(ApiResponse.onSuccess(UserSuccessCode.USER_CREATED, userService.signup(user)));
     }
 }
