@@ -72,11 +72,14 @@ public class User extends BaseEntity {
     @Column(name = "email", nullable = false)
     private String email;
 
+    @Column(name = "password", nullable = false)
+    private String password;
+
     @Column(name = "point", nullable = false)
     @Builder.Default
     private Integer point = 0;
 
-    @Column(name = "social_uid", nullable = false)
+    @Column(name = "social_uid")
     private String socialUid;
 
     @Column(name = "social_provider", nullable = false)

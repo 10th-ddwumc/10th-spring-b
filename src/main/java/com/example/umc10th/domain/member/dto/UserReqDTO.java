@@ -11,9 +11,13 @@ public class UserReqDTO {
 
     public record signUpReq(
             String name,
+            String nickname,
+            String phone,
             Gender gender,
-            LocalDate birthday,
+            LocalDate birth,
             String address,
+            String email,
+            String password,
             List<FoodType> foods,
             List<TermName> terms
     ){}

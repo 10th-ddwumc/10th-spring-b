@@ -3,18 +3,37 @@ package com.example.umc10th.domain.member.converter;
 import com.example.umc10th.domain.member.dto.UserReqDTO;
 import com.example.umc10th.domain.member.dto.UserResDTO;
 import com.example.umc10th.domain.member.entity.User;
+import com.example.umc10th.domain.member.enums.Gender;
+import com.example.umc10th.domain.member.enums.SocialProvider;
 import com.example.umc10th.domain.mission.dto.MissionResDTO;
 import com.example.umc10th.domain.mission.entity.mapping.UserMission;
 import org.springframework.data.domain.Page;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
 public class UserConverter {
-    public static UserResDTO.signUpRes toSignUpRes(UserReqDTO.signUpReq request) {
-        return UserResDTO.signUpRes.builder()
-                .memberId(12345L)
+    public static User toUser(UserReqDTO.signUpReq request, String encodedPassword) {
+        return User.builder()
                 .name(request.name())
+                .nickname(request.nickname())
+                .phone(request.phone())
+                .gender(request.gender() == null ? Gender.NONE : request.gender())
+                .birth(request.birth())
+                .address(request.address())
+                .email(request.email())
+                .password(encodedPassword)
+                .socialProvider(SocialProvider.NONE)
+                .build();
+    }
+
+    public static UserResDTO.signUpRes toSignUpRes(User user) {
+        LocalDate createdAt = user.getCreatedAt() == null ? LocalDate.now() : user.getCreatedAt().toLocalDate();
+        return UserResDTO.signUpRes.builder()
+                .memberId(user.getId())
+                .name(user.getName())
+                .createAt(createdAt)
                 .build();
     }
     public static UserResDTO.homeRes toHomeRes(String name, String region, List<UserResDTO.UserMission> missions){
