@@ -19,12 +19,6 @@ public interface UserMissionRepository extends JpaRepository<UserMission, Long> 
                 JOIN FETCH m.store s
                 WHERE um.user.id = :userId
                 AND um.isComplete = :completed
-                """,
-            countQuery = """
-                SELECT COUNT(um)
-                FROM UserMission um
-                WHERE um.user.id = :userId
-                AND um.isComplete = :completed
                 """
     )
     Page<UserMission> findAllByUserId(
