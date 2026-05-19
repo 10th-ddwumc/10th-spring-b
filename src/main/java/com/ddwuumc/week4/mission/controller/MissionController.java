@@ -1,6 +1,6 @@
 package com.ddwuumc.week4.mission.controller;
 
-import com.ddwuumc.week4.global.code.error.GeneralSuccessCode;
+import com.ddwuumc.week4.global.code.success.GeneralSuccessCode;
 import com.ddwuumc.week4.global.common.ApiResponse;
 import com.ddwuumc.week4.global.common.PageDto.Offset;
 import com.ddwuumc.week4.mission.dto.MissionRequestDto.MissionRequest;

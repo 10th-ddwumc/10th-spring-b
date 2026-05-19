@@ -5,10 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-@AllArgsConstructor
 @Getter
-public enum UserErrorCode implements BaseCode {
-    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "USER_404", "존재하지 않는 사용자입니다.");
+@AllArgsConstructor
+public enum ReviewSuccessCode implements BaseCode {
+    REVIEW_OK(HttpStatus.OK, "REVIEW_200", "성공적으로 리뷰를 조회했습니다"),
+    REVIEW_CREATED(HttpStatus.CREATED, "REVIEW_201", "성공적으로 리뷰를 생성했습니다");
 
     private final HttpStatus status;
     private final String code;

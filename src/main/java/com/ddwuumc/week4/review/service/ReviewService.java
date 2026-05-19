@@ -1,7 +1,7 @@
 package com.ddwuumc.week4.review.service;
 
-import com.ddwuumc.week4.global.code.success.StoreErrorCode;
-import com.ddwuumc.week4.global.code.success.UserErrorCode;
+import com.ddwuumc.week4.global.code.error.StoreErrorCode;
+import com.ddwuumc.week4.global.code.error.UserErrorCode;
 import com.ddwuumc.week4.global.common.PageDto.Cursor;
 import com.ddwuumc.week4.global.exception.ProjectException;
 import com.ddwuumc.week4.review.dto.ReviewConverter;

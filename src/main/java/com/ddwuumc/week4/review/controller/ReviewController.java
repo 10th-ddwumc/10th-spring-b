@@ -1,6 +1,6 @@
 package com.ddwuumc.week4.review.controller;
 
-import com.ddwuumc.week4.global.code.error.ReviewSuccessCode;
+import com.ddwuumc.week4.global.code.success.ReviewSuccessCode;
 import com.ddwuumc.week4.global.common.ApiResponse;
 import com.ddwuumc.week4.global.common.PageDto.Cursor;
 import com.ddwuumc.week4.review.dto.ReviewRequestDto;

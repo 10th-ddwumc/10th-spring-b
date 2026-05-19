@@ -5,11 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-@Getter
 @AllArgsConstructor
-public enum GeneralSuccessCode implements BaseCode {
-    OK(HttpStatus.OK, "COMMON_200", "성공적으로 요청을 처리했습니다"),
-    CREATED(HttpStatus.CREATED, "COMMON_201", "성공적으로 자원을 생성했습니다");
+@Getter
+public enum StoreErrorCode implements BaseCode {
+    STORE_NOT_FOUND(HttpStatus.NOT_FOUND, "STORE_404", "존재하지 않는 매장입니다.");
 
     private final HttpStatus status;
     private final String code;

@@ -1,6 +1,6 @@
 package com.ddwuumc.week4.user.controller;
 
-import com.ddwuumc.week4.global.code.error.GeneralSuccessCode;
+import com.ddwuumc.week4.global.code.success.GeneralSuccessCode;
 import com.ddwuumc.week4.global.common.ApiResponse;
 import com.ddwuumc.week4.global.common.PageDto.Offset;
 import com.ddwuumc.week4.mission.dto.MissionResponseDto.MissionItem;
@@ -10,6 +10,7 @@ import com.ddwuumc.week4.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

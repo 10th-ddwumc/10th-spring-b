@@ -1,4 +1,4 @@
-package com.ddwuumc.week4.global.code.success;
+package com.ddwuumc.week4.global.code.error;
 
 import com.ddwuumc.week4.global.code.BaseCode;
 import lombok.AllArgsConstructor;
@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor
 @Getter
-public enum StoreErrorCode implements BaseCode {
-    STORE_NOT_FOUND(HttpStatus.NOT_FOUND, "STORE_404", "존재하지 않는 매장입니다.");
+public enum UserErrorCode implements BaseCode {
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "USER_404", "존재하지 않는 사용자입니다.");
 
     private final HttpStatus status;
     private final String code;
