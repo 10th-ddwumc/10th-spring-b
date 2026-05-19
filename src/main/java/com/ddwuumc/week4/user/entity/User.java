@@ -3,6 +3,7 @@ package com.ddwuumc.week4.user.entity;
 import com.ddwuumc.week4.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -41,6 +42,21 @@ public class User extends BaseEntity {
     @Column(length = 500)
     private String photo_url;
 
+    @Column(length = 500)
+    private String password;
+
     @Column(nullable = false)
     private Integer point;
+
+    @Builder
+    public User(String name, UserGender gender, LocalDate birth, String address, String detailAddress, String email, String password) {
+        this.name = name;
+        this.gender = gender;
+        this.birth = birth;
+        this.address = address;
+        this.detailAddress = detailAddress;
+        this.email = email;
+        this.password = password;
+        this.point = 0;
+    }
 }

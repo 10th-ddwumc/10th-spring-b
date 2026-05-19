@@ -6,11 +6,13 @@ import java.util.Optional;
 
 public class UserRequestDto {
     public record SignupUser(
+            String email,
+            String password,
             String name,
             UserGender gender,
             String birth,
             String address,
-            Optional<String> detail_address,
+            Optional<String> detailAddress,
             Integer[] food,
             Integer[] term
     ) {}
