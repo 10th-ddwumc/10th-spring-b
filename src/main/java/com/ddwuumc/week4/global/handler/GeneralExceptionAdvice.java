@@ -1,7 +1,7 @@
 package com.ddwuumc.week4.global.handler;
 
 import com.ddwuumc.week4.global.code.BaseCode;
-import com.ddwuumc.week4.global.code.success.GeneralErrorCode;
+import com.ddwuumc.week4.global.code.error.GeneralErrorCode;
 import com.ddwuumc.week4.global.common.ApiResponse;
 import com.ddwuumc.week4.global.exception.ProjectException;
 import org.springframework.http.ResponseEntity;

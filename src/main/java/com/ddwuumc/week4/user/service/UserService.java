@@ -1,6 +1,6 @@
 package com.ddwuumc.week4.user.service;
 
-import com.ddwuumc.week4.global.code.success.GeneralErrorCode;
+import com.ddwuumc.week4.global.code.error.GeneralErrorCode;
 import com.ddwuumc.week4.global.common.PageDto.Offset;
 import com.ddwuumc.week4.global.exception.ProjectException;
 import com.ddwuumc.week4.mission.dto.MissionResponseDto.MissionItem;
@@ -15,8 +15,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -25,9 +27,21 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMissionRepository userMissionRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public Long signup(SignupUser user) {
-        return 100L; // 생성된 사용자 id
+
+    public Long signup(SignupUser signupUser) {
+        User user = User.builder()
+                .name(signupUser.name())
+                .gender(signupUser.gender())
+                .birth(LocalDate.parse(signupUser.birth()))
+                .address(signupUser.address())
+                .detailAddress(signupUser.detailAddress().orElse(""))
+                .email(signupUser.email())
+                .password(passwordEncoder.encode(signupUser.password()))
+                .build();
+
+        return userRepository.save(user).getId();
     }
 
     public Offset<MissionItem> getUserHome(Integer pageNumber, Integer pageSize) {
