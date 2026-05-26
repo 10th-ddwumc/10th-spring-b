@@ -1,7 +1,11 @@
 package com.ddwuumc.week4.global.config;
 
+import com.ddwuumc.week4.global.security.filter.JwtAuthFilter;
+import com.ddwuumc.week4.global.security.service.CustomUserDetailsService;
 import com.ddwuumc.week4.global.security.util.CustomAccessDenied;
 import com.ddwuumc.week4.global.security.util.CustomEntryPoint;
+import com.ddwuumc.week4.global.security.util.JwtUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,9 +14,11 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final String[] allowUris = {
@@ -23,8 +29,13 @@ public class SecurityConfig {
             "/auth/**",
 
             // 회원가입 api
-            "/api/auth/signup"
+            "/api/auth/signup",
+            // 로그인 api
+            "/api/login"
     };
+
+    private final JwtUtil jwtUtil;
+    private final CustomUserDetailsService customUserDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
@@ -34,10 +45,9 @@ public class SecurityConfig {
                         .requestMatchers(allowUris).permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(form -> form
-                        .defaultSuccessUrl("/swagger-ui/index.html", true)
-                        .permitAll()
-                )
+                .formLogin(AbstractHttpConfigurer::disable)
+                .sessionManagement(AbstractHttpConfigurer::disable)
+                .addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class)
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
@@ -51,11 +61,6 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
     public CustomAccessDenied customAccessDenied() {
         return new CustomAccessDenied();
     }
@@ -63,5 +68,10 @@ public class SecurityConfig {
     @Bean
     public CustomEntryPoint customEntryPoint() {
         return new CustomEntryPoint();
+    }
+
+    @Bean
+    public JwtAuthFilter jwtAuthFilter() {
+        return new JwtAuthFilter(jwtUtil, customUserDetailsService);
     }
 }
