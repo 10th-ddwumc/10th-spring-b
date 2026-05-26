@@ -5,8 +5,6 @@ import com.example.umc10th.domain.member.dto.UserResDTO;
 import com.example.umc10th.domain.member.entity.User;
 import com.example.umc10th.domain.member.enums.Gender;
 import com.example.umc10th.domain.member.enums.SocialProvider;
-import com.example.umc10th.domain.mission.dto.MissionResDTO;
-import com.example.umc10th.domain.mission.entity.mapping.UserMission;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
@@ -36,6 +34,16 @@ public class UserConverter {
                 .createAt(createdAt)
                 .build();
     }
+
+    public static UserResDTO.loginRes toLoginRes(User user, String accessToken) {
+        return UserResDTO.loginRes.builder()
+                .memberId(user.getId())
+                .name(user.getName())
+                .accessToken(accessToken)
+                .tokenType("Bearer")
+                .build();
+    }
+
     public static UserResDTO.homeRes toHomeRes(String name, String region, List<UserResDTO.UserMission> missions){
         return UserResDTO.homeRes.builder()
                 .name(name)
@@ -43,15 +51,15 @@ public class UserConverter {
                 .missions(missions)
                 .build();
     }
-    public static UserResDTO.userRes toUserRes(){
-        return UserResDTO.userRes.builder()
-                .name("홍길동")
-                .nickname("길동이")
-                .email("1234@gmail.com")
-                .phone("010-1234-5678")
-                .point(2000)
-                .build();
+    public static UserResDTO.userRes user(User user){
 
+        return UserResDTO.userRes.builder()
+                .name(user.getName())
+                .nickname(user.getNickname())
+                .email(user.getEmail())
+                .phone(user.getPhone())
+                .point(user.getPoint())
+                .build();
     }
 
     public static <T> UserResDTO.PageResDTO<T> toPageRes(Page<T> page) {

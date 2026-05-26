@@ -79,7 +79,7 @@ public class User extends BaseEntity {
     @Builder.Default
     private Integer point = 0;
 
-    @Column(name = "social_uid")
+    @Column(name = "social_uid", nullable = true)
     private String socialUid;
 
     @Column(name = "social_provider", nullable = false)

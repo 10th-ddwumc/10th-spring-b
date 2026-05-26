@@ -1,9 +1,19 @@
 package com.example.umc10th.domain.review.service;
 
+import com.example.umc10th.domain.member.entity.User;
+import com.example.umc10th.domain.member.exception.MemberException;
+import com.example.umc10th.domain.member.exception.code.UserErrorCode;
+import com.example.umc10th.domain.member.repositoty.UserRepository;
+import com.example.umc10th.domain.mission.entity.Store;
+import com.example.umc10th.domain.mission.exception.StoreException;
+import com.example.umc10th.domain.mission.exception.code.StoreErrorCode;
+import com.example.umc10th.domain.mission.repository.StoreRepository;
 import com.example.umc10th.domain.review.converter.ReviewConverter;
 import com.example.umc10th.domain.review.dto.ReviewReqDTO;
 import com.example.umc10th.domain.review.dto.ReviewResDTO;
+import com.example.umc10th.domain.review.entity.Photo;
 import com.example.umc10th.domain.review.entity.Review;
+import com.example.umc10th.domain.review.repository.PhotoRepository;
 import com.example.umc10th.domain.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -19,9 +29,26 @@ public class ReviewService {
     private static final String STAR_QUERY = "star";
 
     private final ReviewRepository reviewRepository;
+    private final PhotoRepository photoRepository;
+    private final UserRepository userRepository;
+    private final StoreRepository storeRepository;
 
+    @Transactional
     public ReviewResDTO.Review review(ReviewReqDTO.reviewReq request) {
-        return ReviewConverter.toReviewRes(request);
+        User user = userRepository.findById(request.userId())
+                .orElseThrow(() -> new MemberException(UserErrorCode.USER_NOT_FOUND));
+        Store store = storeRepository.findById(request.storeId())
+                .orElseThrow(() -> new StoreException(StoreErrorCode.NOT_FOUND));
+
+        Review review = ReviewConverter.toReview(request, user, store);
+        Review savedReview = reviewRepository.save(review);
+
+        List<Photo> photos = request.photos() == null ? List.of() : request.photos().stream()
+                .map(photo -> ReviewConverter.toPhoto(photo, savedReview))
+                .toList();
+        List<Photo> savedPhotos = photoRepository.saveAll(photos);
+
+        return ReviewConverter.toReviewRes(savedReview, savedPhotos);
     }
 
     @Transactional(readOnly = true)

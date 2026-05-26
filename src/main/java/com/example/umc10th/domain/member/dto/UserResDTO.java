@@ -42,6 +42,14 @@ public class UserResDTO {
     ){}
 
     @Builder
+    public record loginRes(
+            Long memberId,
+            String name,
+            String accessToken,
+            String tokenType
+    ){}
+
+    @Builder
     public record PageResDTO<T>(
             List<T> content,
             int page,

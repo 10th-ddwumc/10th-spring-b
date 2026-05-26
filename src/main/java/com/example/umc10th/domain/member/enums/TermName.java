@@ -2,7 +2,7 @@ package com.example.umc10th.domain.member.enums;
 
 public enum TermName {
     AGE,
-    SERVEICE,
+    SERVICE,
     PRIVACY,
     LOCATION,
     MARKETING,

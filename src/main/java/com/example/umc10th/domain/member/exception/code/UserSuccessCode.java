@@ -9,10 +9,12 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum UserSuccessCode implements BaseSuccessCode {
 
-    USER_FOUND(HttpStatus.OK, "USER200_1", "사용자 조회 성공"),
-    USER_CREATED(HttpStatus.CREATED, "USER201_1", "사용자 등록 성공"),
-    USER_UPDATED(HttpStatus.OK, "USER200_2", "사용자 수정 성공"),
-    USER_DELETED(HttpStatus.OK, "USER200_3", "사용자 삭제 성공");
+    USER_FOUND(HttpStatus.OK, "USER200_1", "사용자 조회에 성공했습니다."),
+    USER_LOGIN(HttpStatus.OK, "USER200_2", "로그인에 성공했습니다."),
+    USER_UPDATED(HttpStatus.OK, "USER200_3", "사용자 수정에 성공했습니다."),
+    USER_DELETED(HttpStatus.OK, "USER200_4", "사용자 삭제에 성공했습니다."),
+    USER_CREATED(HttpStatus.CREATED, "USER201_1", "회원가입에 성공했습니다.");
+
     private final HttpStatus status;
     private final String code;
     private final String message;

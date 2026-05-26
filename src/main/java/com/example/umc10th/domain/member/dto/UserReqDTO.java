@@ -22,6 +22,11 @@ public class UserReqDTO {
             List<TermName> terms
     ){}
 
+    public record loginReq(
+            String email,
+            String password
+    ){}
+
     public record RequestBody(
             String stringTest,
             Long longTest
