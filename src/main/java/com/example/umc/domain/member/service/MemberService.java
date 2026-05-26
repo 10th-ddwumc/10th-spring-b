@@ -9,6 +9,8 @@ import com.example.umc.domain.member.exception.code.MemberErrorCode;
 import com.example.umc.domain.member.repository.MemberRepository;
 import com.example.umc.domain.mission.entity.Mission;
 import com.example.umc.domain.mission.repository.MissionRepository;
+import com.example.umc.global.security.entity.AuthMember;
+import com.example.umc.global.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +25,7 @@ import java.util.List;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final MissionRepository missionRepository;
+    private final JwtUtil jwtUtil;
 
     // SecurityConfig에 등록한 BCryptPasswordEncoder Bean이 여기로 주입.
     // 회원가입 시 비밀번호 원문을 BCrypt 해시 값으로 바꿀 때 사용.
@@ -61,19 +64,17 @@ public class MemberService {
         return "OK";
     }
 
-    public MemberResDTO.GetInfo getInfo(Long memberId) {
-
-        // DB에서 해당 유저 ID로 데이터 조회
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
-
-        // 컨버터를 이용해서 응답 DTO 생성 & return
-        return MemberConverter.toGetInfo(member);
+    @Transactional(readOnly = true)
+    public MemberResDTO.GetInfo getInfo(AuthMember member) {
+        // Controller에서 받은 AuthMember는 JWT 토큰 검증이 끝난 현재 로그인 회원입니다.
+        // Entity를 그대로 반환하지 않고, 화면에 필요한 값만 응답 DTO로 변환해서 돌려줍니다.
+        return MemberConverter.toGetInfo(member.getMember());
     }
 
     @Transactional
     public MemberResDTO.SignUp getSignUp(MemberReqDTO.SignUp dto) {
         // 화면상 필수 약관인 연령 확인, 서비스 이용약관, 개인정보 처리방침은 반드시 true여야 함.
+        // Boolean.TRUE.equals(...)를 쓰면 값이 null이어도 NullPointerException 없이 false처럼 처리할 수 있습니다.
         if (!Boolean.TRUE.equals(dto.ageConfirm())
                 || !Boolean.TRUE.equals(dto.serviceAgree())
                 || !Boolean.TRUE.equals(dto.privacyAgree())) {
@@ -96,6 +97,24 @@ public class MemberService {
         return MemberConverter.toSignUpResult(savedMember, dto.preferenceFoods());
     }
 
+    @Transactional(readOnly = true)
+    public MemberResDTO.Login login(MemberReqDTO.Login dto) {
+        // 로그인은 email로 기존 회원을 먼저 찾습니다.
+        Member member = memberRepository.findByEmail(dto.email())
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+
+        // DB에는 BCrypt로 암호화된 비밀번호가 저장되어 있으므로 matches로 원문과 해시값을 비교합니다.
+        if (!passwordEncoder.matches(dto.password(), member.getPassword())) {
+            throw new MemberException(MemberErrorCode.INVALID_PASSWORD);
+        }
+
+        // 검증이 끝난 회원 정보를 AuthMember로 감싸 기존 JwtUtil을 통해 AccessToken을 발급합니다.
+        String accessToken = jwtUtil.createAccessToken(new AuthMember(member));
+
+        // 컨트롤러에는 Entity가 아니라 로그인 응답 DTO 형태로 반환합니다.
+        return MemberConverter.toLogin(accessToken);
+    }
+
 
 
     public  MemberResDTO.Home getHome(Long memberId, String cursorStr, Integer size){
@@ -106,6 +125,7 @@ public class MemberService {
         Integer goal = 10;
 
         Long cursor = (cursorStr != null && !cursorStr.isEmpty()) ? Long.parseLong(cursorStr) : null;
+        // missionRepository.findHomeMissions(...) 같이 레포지토리에 새로 만들어야 해요!
         Pageable pageable = PageRequest.of(0, size + 1); // 10개 요청 시 11개 가져와서 hasNext 판단
         List<Mission> missions = missionRepository.findHomeMissions(cursor, pageable);
         boolean hasNext = false;
@@ -114,6 +134,7 @@ public class MemberService {
             missions = missions.subList(0, size);
         }
 
+        // 4. 컨버터에게 전부 넘겨서 최종 결과물 만들기!
         return MemberConverter.toHome(member, currentCount, goal, missions, hasNext);
         }
 }

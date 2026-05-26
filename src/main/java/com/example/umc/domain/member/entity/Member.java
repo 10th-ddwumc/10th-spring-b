@@ -2,7 +2,7 @@ package com.example.umc.domain.member.entity;
 
 import com.example.umc.domain.member.enums.Address;
 import com.example.umc.domain.member.enums.Gender;
-import com.example.umc.domain.member.enums.SocialProvider;
+import com.example.umc.domain.member.enums.SocialType;
 import com.example.umc.domain.review.entity.Review;
 import com.example.umc.global.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -42,23 +42,23 @@ public class Member extends BaseEntity {
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    @Column(name = "gender", nullable = false)
+    @Column(name = "gender")
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Column(name = "birth", nullable = false)
+    @Column(name = "birth")
     private LocalDateTime birth;
 
 
     @Column(name = "social_provider", nullable = false)
     @Enumerated(EnumType.STRING)
-    private SocialProvider socialProvider;
+    private SocialType socialType;
 
     @Column(name = "social_uid", nullable = false)
     private String socialUid;
 
 
-    @Column(name = "address", nullable = false)
+    @Column(name = "address")
     @Enumerated(EnumType.STRING)
     private Address address;
 
