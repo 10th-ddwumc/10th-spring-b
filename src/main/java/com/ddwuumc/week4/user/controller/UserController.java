@@ -4,13 +4,17 @@ import com.ddwuumc.week4.global.code.success.GeneralSuccessCode;
 import com.ddwuumc.week4.global.code.success.UserSuccessCode;
 import com.ddwuumc.week4.global.common.ApiResponse;
 import com.ddwuumc.week4.global.common.PageDto.Offset;
+import com.ddwuumc.week4.global.security.entity.AuthMember;
 import com.ddwuumc.week4.mission.dto.MissionResponseDto.MissionItem;
-import com.ddwuumc.week4.user.dto.UserRequestDto;
+import com.ddwuumc.week4.user.dto.UserRequestDto.LoginUser;
+import com.ddwuumc.week4.user.dto.UserRequestDto.SignupUser;
+import com.ddwuumc.week4.user.dto.UserResponseDto.LoginResponse;
 import com.ddwuumc.week4.user.dto.UserResponseDto.MyPage;
 import com.ddwuumc.week4.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,14 +30,19 @@ public class UserController {
     }
 
     @GetMapping("/api/mypage")
-    public ResponseEntity<ApiResponse<MyPage>> getUserMyPage() {
+    public ResponseEntity<ApiResponse<MyPage>> getUserMyPage(@AuthenticationPrincipal AuthMember authMember) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ApiResponse.onSuccess(GeneralSuccessCode.OK, userService.getUserMyPage()));
+                .body(ApiResponse.onSuccess(GeneralSuccessCode.OK, userService.getUserMyPage(authMember)));
     }
 
     @PostMapping("/api/auth/signup")
-    public ResponseEntity<ApiResponse<Long>> signup(@RequestBody UserRequestDto.SignupUser user) {
+    public ResponseEntity<ApiResponse<Long>> signup(@RequestBody SignupUser user) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.onSuccess(UserSuccessCode.USER_CREATED, userService.signup(user)));
     }
-}
+
+    @PostMapping("/api/login")
+    public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody LoginUser user) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.onSuccess(GeneralSuccessCode.OK, userService.login(user)));
+    }}

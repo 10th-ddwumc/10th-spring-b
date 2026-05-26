@@ -3,11 +3,17 @@ package com.ddwuumc.week4.user.service;
 import com.ddwuumc.week4.global.code.error.GeneralErrorCode;
 import com.ddwuumc.week4.global.common.PageDto.Offset;
 import com.ddwuumc.week4.global.exception.ProjectException;
+import com.ddwuumc.week4.global.security.entity.AuthMember;
+import com.ddwuumc.week4.global.security.service.CustomUserDetailsService;
 import com.ddwuumc.week4.mission.dto.MissionResponseDto.MissionItem;
 import com.ddwuumc.week4.mission.dto.UserMissionConverter;
 import com.ddwuumc.week4.mission.entity.UserMission;
 import com.ddwuumc.week4.mission.repository.UserMissionRepository;
+import com.ddwuumc.week4.user.dto.UserConverter;
+import com.ddwuumc.week4.user.dto.UserRequestDto.LoginUser;
 import com.ddwuumc.week4.user.dto.UserRequestDto.SignupUser;
+import com.ddwuumc.week4.user.dto.UserResponseDto;
+import com.ddwuumc.week4.user.dto.UserResponseDto.LoginResponse;
 import com.ddwuumc.week4.user.dto.UserResponseDto.MyPage;
 import com.ddwuumc.week4.user.entity.User;
 import com.ddwuumc.week4.user.repository.UserRepository;
@@ -28,6 +34,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMissionRepository userMissionRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CustomUserDetailsService customUserDetailsService;
 
 
     public Long signup(SignupUser signupUser) {
@@ -59,9 +66,11 @@ public class UserService {
                 userMissionPage.getTotalPages());
     }
 
-    public MyPage getUserMyPage() {
-        // TODO: user id는 하드코딩함
-        User user = userRepository.findById(0L).orElseThrow(() -> new ProjectException(GeneralErrorCode.NOT_FOUND));
-        return new MyPage(user.getName(), user.getEmail(), user.getPhone(), user.getPoint());
+    public MyPage getUserMyPage(AuthMember authMember) {
+        return UserConverter.convert(authMember.getUser());
+    }
+
+    public LoginResponse login(LoginUser user) {
+        return customUserDetailsService.loginResponse(user);
     }
 }

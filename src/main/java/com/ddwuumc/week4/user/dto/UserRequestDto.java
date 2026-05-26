@@ -5,6 +5,11 @@ import com.ddwuumc.week4.user.entity.UserGender;
 import java.util.Optional;
 
 public class UserRequestDto {
+    public record LoginUser(
+            String email,
+            String password
+    ) {}
+
     public record SignupUser(
             String email,
             String password,
