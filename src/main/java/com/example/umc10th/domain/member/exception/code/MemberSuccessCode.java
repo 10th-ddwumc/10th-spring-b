@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 public enum MemberSuccessCode implements BaseSuccessCode {
     GET_MY_PAGE(HttpStatus.OK, "MEMBER200_1", "마이페이지 조회 성공"),
     GET_MY_REVIEWS(HttpStatus.OK, "MEMBER200_2", "작성한 리뷰 목록 조회 성공"),
+    LOGIN_SUCCESS(HttpStatus.OK, "MEMBER200_3", "로그인 성공"),
 
     ;
     private final HttpStatus status;

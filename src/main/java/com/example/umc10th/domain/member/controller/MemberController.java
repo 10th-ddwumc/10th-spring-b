@@ -8,8 +8,10 @@ import com.example.umc10th.domain.review.dto.response.ReviewResDTO;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import com.example.umc10th.global.apiPayload.code.GeneralSuccessCode;
+import com.example.umc10th.global.security.entity.AuthMember;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,10 +20,11 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberService memberService;
 
-    @GetMapping("/members/my-page/{memberId}")
+    @GetMapping("/members/my-page")
     public ApiResponse<MemberResDTO.MyPageResDTO> getMyPage(
-            @PathVariable Long memberId) {
-        return ApiResponse.onSuccess(MemberSuccessCode.GET_MY_PAGE, memberService.getMyPage(memberId));
+            @AuthenticationPrincipal AuthMember member
+            ) {
+        return ApiResponse.onSuccess(MemberSuccessCode.GET_MY_PAGE, memberService.getMyPage(member));
     }
 
     @GetMapping("/members/reviews")
@@ -42,5 +45,12 @@ public class MemberController {
     ){
         BaseSuccessCode code = GeneralSuccessCode.OK;
         return ApiResponse.onSuccess(code, memberService.signup(request));
+    }
+
+    @PostMapping("/login")
+    public ApiResponse<MemberResDTO.LoginResDTO> login(
+            @RequestBody @Valid MemberReqDTO.LoginReqDTO request
+    ) {
+        return ApiResponse.onSuccess(MemberSuccessCode.LOGIN_SUCCESS, memberService.login(request));
     }
 }

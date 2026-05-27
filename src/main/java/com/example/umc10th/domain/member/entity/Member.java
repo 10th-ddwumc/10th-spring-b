@@ -50,7 +50,7 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Address address;
 
-    @Column(name = "detail_address", nullable = false)
+    @Column(name = "detail_address")
     private String detailAddress;
 
     @Column(name = "provider", nullable = false)

@@ -64,4 +64,14 @@ public class MemberResDTO {
         private String name;
         private LocalDateTime createdAt;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class LoginResDTO {
+        private Long memberId;
+        private String email;
+        private String accessToken;
+    }
 }

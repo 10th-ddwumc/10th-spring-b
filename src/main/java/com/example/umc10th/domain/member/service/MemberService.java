@@ -10,6 +10,8 @@ import com.example.umc10th.domain.member.repository.MemberRepository;
 import com.example.umc10th.domain.review.dto.response.ReviewResDTO;
 import com.example.umc10th.domain.review.entity.Review;
 import com.example.umc10th.domain.review.repository.ReviewRepository;
+import com.example.umc10th.global.security.entity.AuthMember;
+import com.example.umc10th.global.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,7 +31,26 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
+    public MemberResDTO.LoginResDTO login(MemberReqDTO.LoginReqDTO request) {
+        Member member = memberRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+
+        if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
+            throw new MemberException(MemberErrorCode.INVALID_PASSWORD);
+        }
+
+        String accessToken = jwtUtil.createAccessToken(new AuthMember(member));
+
+        return MemberResDTO.LoginResDTO.builder()
+                .memberId(member.getId())
+                .email(member.getEmail())
+                .accessToken(accessToken)
+                .build();
+    }
+
+    @Transactional
     public MemberResDTO.SignUpResDTO signup(MemberReqDTO.SignUpReqDTO request) {
         if (memberRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new MemberException(MemberErrorCode.EMAIL_ALREADY_EXISTS);
@@ -56,7 +77,9 @@ public class MemberService {
                 .build();
     }
 
-    public MemberResDTO.MyPageResDTO getMyPage(Long memberId) {
+    public MemberResDTO.MyPageResDTO getMyPage(AuthMember authMember) {
+        Long memberId = authMember.getMember().getId();
+
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
