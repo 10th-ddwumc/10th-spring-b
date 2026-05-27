@@ -1,0 +1,29 @@
+### Sign up
+POST http://localhost:8080/auth/signup
+Content-Type: application/json
+
+{
+  "name": "Login Test",
+  "nickname": "tester",
+  "phone": "010-1234-5678",
+  "gender": "NONE",
+  "birth": "2000-01-01",
+  "address": "Seoul",
+  "email": "login-test@example.com",
+  "password": "password1234!",
+  "foods": ["KOREAN"],
+  "terms": ["AGE", "SERVICE", "PRIVACY", "LOCATION", "MARKETING"]
+}
+
+### Login
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "login-test@example.com",
+  "password": "password1234!"
+}
+
+### Authenticated request example
+GET http://localhost:8080/api/my
+Authorization: Bearer paste-access-token-here
